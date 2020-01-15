@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import io from 'socket.io-client';
+import Linkify from 'react-linkify';
+import { emojify } from 'react-emojione';
 
 class ChatPage extends React.Component {
     constructor(props) {
@@ -34,15 +36,7 @@ class ChatPage extends React.Component {
     //to grab new message from textarea:
     onChange = (e) => {
         let value = e.target.value;
-        this.setState({clientMessage: value})
-        
-        /*let value = e.target.value;
-          let regexp = /.{1,200}\w+/;
-            
-        if (regexp.test(value)) {
-            this.setState({ clientMessage: value}); //what u type in textarea
-        } //else: message, to long message
-        //console.log(this.state.clientMessage);*/
+        this.setState({ clientMessage: value })
     }
 
     sendMessage = (e) => {
@@ -51,7 +45,10 @@ class ChatPage extends React.Component {
         this.socket.emit('message', {
             username: this.props.name,
             content: this.state.clientMessage,
-        })
+        }, (response) => {
+            this.state.messages.push(response.data.newMessage);
+            this.setState({ messages: this.state.messages, clientMessage: '' })
+        });
     }
 
     componentWillUnmount() {
@@ -70,16 +67,25 @@ class ChatPage extends React.Component {
         let alertText = {};
         if (numLetters > 200) {
             textStyle = { color: 'red' };
-            alertText = { popuptext: 'Maximum 200 characters.'};
-        } 
+            alertText = { popuptext: 'Maximum 200 characters.' };
+        }
 
+        let {messages} = this.state;
+    const componentDecorator = (href, text, key) => (
+      <a href={href} key={key} target="_blank">
+        {text}
+      </a>
+    );
         return (
             <div>
                 <h3>Class Chat</h3>
                 <button onClick={this.toLogOut}>Log out</button>
 
                 {this.state.messages.map(x => (
-                    <p key={x.id}>{x.username}: {x.content}</p>
+                    <div key={x.id}>
+                        <span className="users">{x.username}</span>
+                        <span className="text"> <Linkify componentDecorator={componentDecorator}>{emojify(x.content)}</Linkify></span>
+                    </div>
                 ))}
 
                 {/*to push clientMessage to messages in DOM*/}

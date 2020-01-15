@@ -2,3 +2,6 @@
   text-align: center;
 }
 
+p {
+  overflow-wrap: break-word;
+}
