@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 
 class LoginPage extends React.Component {
 constructor(props) {
@@ -7,23 +8,19 @@ constructor(props) {
     this.state = {
         name: ' ', //this is the value from input field
     }; 
-    //this.onChange = this.onChange.bind(this);
-    //this.toLogIn = this.toLogIn.bind(this);
 }
 
 onChange = (e) =>  { //same as bind in constructor! :)
     let value = e.target.value;
   
-    let regexp = /[a-zA-Z0-9-]{1,12}/;
-    //let userName = regexp.test(value); //console.log(userName); //true if value = regex
-    
+    let regexp = /^[a-zA-Z\d\s-_]{1,12}$/;
+        
     if (regexp.test(value)) {
         this.setState({ name: value}); //console.log('NAME is ', value); //what u write in input
     } //else: message, invalid username, check out postal code
 }
 
 toLogIn = () => { //because username sends to server
-    //how to show chat page?
     this.props.logIn(this.state.name); //logIn i App.js
 }
 
