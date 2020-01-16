@@ -70,31 +70,31 @@ class ChatPage extends React.Component {
             alertText = { popuptext: 'Maximum 200 characters.' };
         }
 
-        let {messages} = this.state;
-    const componentDecorator = (href, text, key) => (
-      <a href={href} key={key} target="_blank">
-        {text}
-      </a>
-    );
+        //let { messages } = this.state;
+        const componentDecorator = (href, text, key) => (
+            <a href={href} key={key} target="_blank">
+                {text}
+            </a>
+        );
         return (
-            <div>
-                <h3>Class Chat</h3>
-                <button onClick={this.toLogOut}>Log out</button>
+                <div className='chat-page'>
+                    <h2>Class Chat</h2>
+                    <button onClick={this.toLogOut} className='logout-button'>X</button>
 
-                {this.state.messages.map(x => (
-                    <div key={x.id}>
-                        <span className="users">{x.username}</span>
-                        <span className="text"> <Linkify componentDecorator={componentDecorator}>{emojify(x.content)}</Linkify></span>
-                    </div>
-                ))}
+                    {this.state.messages.map(x => (
+                        <div key={x.id} className='chat-messages'>
+                            <span className='chat-users'>{x.username}</span>
+                            <span className='chat-text'> <Linkify componentDecorator={componentDecorator}>{emojify(x.content)}</Linkify></span>
+                        </div>
+                    ))}
 
-                {/*to push clientMessage to messages in DOM*/}
-                <form onSubmit={this.sendMessage}>
-                    <textarea style={textStyle} onChange={this.onChange} value={this.state.clientMessage}></textarea>
-                    <p style={textStyle}> {alertText.popuptext}</p>
-                    <button onClick={this.sendMessage}>Send</button>
-                </form>
-            </div>
+                    <form onSubmit={this.sendMessage}>
+                        <textarea style={textStyle} onChange={this.onChange} value={this.state.clientMessage} placeHolder={this.state.placeHolder} rows='5' cols='40' placeholder='Type in Your Message Here'></textarea>
+                        <p style={textStyle}> {alertText.popuptext}</p>
+                        <button onSubmit={this.sendMessage} className='send-button'>Send</button>
+                    </form>
+                    <br></br>
+                </div>
         )
     }
 }

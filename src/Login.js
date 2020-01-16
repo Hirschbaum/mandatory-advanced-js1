@@ -7,7 +7,7 @@ constructor(props) {
 
     this.state = {
         name: '', //this is the value from input field
-        placeHolder: 'Type in your name',
+        placeHolder: 'Type in Your Name',
     }; 
 }
 
@@ -29,11 +29,11 @@ toLogIn = () => { //because username sends to server
     render() {
         return (
             <div>
-                <h3>Chat</h3>
-                <div>
+                <div className='login-page'>
+                    <h1>Class Chat</h1>
                     <input type='text' name='username' placeholder={this.state.placeHolder} id='username'
                     value = {this.state.name} onChange = {this.onChange} />
-                    <button onClick={this.toLogIn} >Log in</button>
+                    <button onClick={this.toLogIn} className='login-button'>Log in</button>
                 </div>
             </div>
         )
