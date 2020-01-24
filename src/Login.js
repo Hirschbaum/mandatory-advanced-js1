@@ -11,14 +11,9 @@ constructor(props) {
     }; 
 }
 
-onChange = (e) =>  { //same as bind in constructor! :)
+onChange = (e) =>  { //same as bind in constructor
     let value = e.target.value;
-  
-    let regexp = /^[a-zA-Z\d\s-_]{1,12}$/;
-        
-    if (regexp.test(value)) {
-        this.setState({ name: value}); //console.log('NAME is ', value); //what u write in input
-    } //else: message, invalid username, check out postal code
+    this.setState({name: value})
 }
 
 toLogIn = () => { //because username sends to server
@@ -26,14 +21,33 @@ toLogIn = () => { //because username sends to server
 }
 
 
-    render() {
+render() {
+
+    let textStyle = {};
+    let alertText = {};
+
+    if (this.state.name.length === 0) {
+        textStyle = { color: 'teal' };
+        alertText = { popuptext: 'You have to type at least one letter.' };
+    } else if (this.state.name.length > 12 ) {
+        textStyle = { color: 'red' };
+        alertText = { popuptext: 'You can write maximum 12 characters.' };
+    }
         return (
             <div>
                 <div className='login-page'>
                     <h1>Class Chat</h1>
-                    <input type='text' name='username' placeholder={this.state.placeHolder} id='username'
-                    value = {this.state.name} onChange = {this.onChange} />
-                    <button onClick={this.toLogIn} className='login-button'>Log in</button>
+                    <input 
+                    type='text' name='username' 
+                    placeholder={this.state.placeHolder} id='username'
+                    value = {this.state.name} 
+                    onChange = {this.onChange} />
+
+                    <p style={textStyle}> {alertText.popuptext}</p>
+
+                    <button 
+                    onClick={this.toLogIn}
+                    className='login-button'>Log in</button>
                 </div>
             </div>
         )

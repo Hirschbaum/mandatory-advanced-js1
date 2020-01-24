@@ -10,7 +10,7 @@ class ChatPage extends React.Component {
 
         this.state = {
             messages: [],
-            clientMessage: ' ',
+            clientMessage: '',
             loggedIn: false,
         };
 
@@ -79,7 +79,8 @@ class ChatPage extends React.Component {
         return (
                 <div className='chat-page'>
                     <h2>Class Chat</h2>
-                    <button onClick={this.toLogOut} className='logout-button'>X</button>
+                    <button onClick={this.toLogOut}
+                    className='logout-button'>X</button>
 
                     {this.state.messages.map(x => (
                         <div key={x.id} className='chat-messages'>
